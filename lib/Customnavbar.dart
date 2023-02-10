@@ -39,7 +39,7 @@ class Customnavbar extends StatelessWidget {
           InkWell(
             onTap: () {},
             child: Icon(
-              Icons.favorite_border,
+              Icons.book_sharp,
               size: 35,
               color: Colors.white,
             ),

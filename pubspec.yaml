@@ -42,6 +42,7 @@ dependencies:
   flutter_onboard: ^2.0.0
   shared_preferences: ^2.0.17
   firebase_core: ^2.5.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

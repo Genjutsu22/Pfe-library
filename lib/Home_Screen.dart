@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Customnavbar.dart';
 import 'package:myapp/Newwidget.dart';
 import 'package:myapp/Popularwidget.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +12,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePagestate extends State<HomePage> {
+  TextEditingController _controller = TextEditingController();
+  List<dynamic> _books = [];
+  dynamic valueitem;
+  List listitem = ["Par titre", "Par auteur", "Par genre"];
+
+  @override
+  Widget malist() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 1),
+      child: DropdownButton(
+          underline: SizedBox(),
+          icon: const Icon(Icons.tune),
+          dropdownColor: const Color(0xff292B37),
+          focusColor: const Color(0xff292B37),
+          iconEnabledColor: Color.fromARGB(255, 205, 208, 225),
+          value: valueitem,
+          onChanged: (newValue) {
+            setState(() {
+              valueitem = newValue;
+            });
+          },
+          items: listitem.map((valueitem) {
+            return DropdownMenuItem(
+                value: valueitem,
+                child: Text(valueitem,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 242, 242, 247),
+                        fontSize: 14,
+                        fontFamily: 'kanit')));
+          }).toList()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cw = MediaQuery.of(context).size.width;
@@ -63,34 +97,33 @@ class _HomePagestate extends State<HomePage> {
                   color: Color(0xff292B37),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(children: [
-                  Icon(
-                    Icons.search_sharp,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    width: cw - 70,
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 16.5,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  width: cw - 10,
+                  child: TextFormField(
+                    style: const TextStyle(
+                      fontSize: 16.5,
+                      color: Colors.white,
+                    ),
+                    decoration: InputDecoration(
+                      suffixIcon: malist(),
+                      prefixIcon: const Icon(
+                        Icons.search_sharp,
                         color: Colors.white,
+                        size: 30,
                       ),
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: InputBorder.none,
-                      ),
+                      hintText: "Search",
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      border: InputBorder.none,
                     ),
                   ),
-                ]),
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Popularwidget(),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Newwidget(),

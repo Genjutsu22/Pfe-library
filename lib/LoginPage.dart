@@ -316,6 +316,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         Navigator.pushNamed(context, '/');
+                        myController1.clear();
+                        myController2.clear();
                       }
                     },
                     child: Text(
