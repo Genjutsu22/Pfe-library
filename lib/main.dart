@@ -23,20 +23,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //title: 'Flutter Demo',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xff0F111D),
+        scaffoldBackgroundColor: const Color(0xff0F111D),
         primarySwatch: Colors.grey,
       ),
       initialRoute: (isFirstLaunch == 0 || isFirstLaunch == null)
           ? "onboardingpage"
           : "loginpage",
       routes: {
-        "loginpage": (context) => LoginScreen(),
-        "/": (context) => HomePage(),
+        "loginpage": (context) => const LoginScreen(),
+        "/": (context) => const HomePage(),
         "categorypage": (context) => CategoryPage(),
         "bookpage": (context) => BookPage(),
-        "onboardingpage": (context) => OnboardingPage(),
+        "onboardingpage": (context) => const OnboardingPage(),
       },
     );
   }
