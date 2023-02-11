@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:myapp/Customnavbar.dart';
 
 List<String> booktitle = [
@@ -51,6 +48,7 @@ class BookslistPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: Customnavbar(),
       body: SafeArea(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),
@@ -58,7 +56,7 @@ class BookslistPage extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisExtent: 290,
             mainAxisSpacing: 20,
-            crossAxisSpacing: 12,
+            crossAxisSpacing: 6,
           ),
           itemBuilder: (_, index) {
             return InkWell(
@@ -88,7 +86,7 @@ class BookslistPage extends StatelessWidget {
                         topRight: Radius.circular(10),
                       ),
                       child: Image.asset(
-                        "assets/images/bk1.jpg",
+                        "assets/icons/add_image.png",
                         height: 200,
                         width: 200,
                         fit: BoxFit.cover,
@@ -101,7 +99,7 @@ class BookslistPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            booktitle[5],
+                            "Book Title",
                             style: TextStyle(
                               fontSize: 15,
                               color: Colors.white,

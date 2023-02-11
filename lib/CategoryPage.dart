@@ -39,7 +39,7 @@ class CategoryPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Column(
                   children: [
                     for (int i = 0; i < 15; i++)

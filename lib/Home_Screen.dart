@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePagestate extends State<HomePage> {
   TextEditingController _controller = TextEditingController();
-  List<dynamic> _books = [];
+  List _books = [];
   dynamic valueitem;
   String? valuesearch;
   String? user;
@@ -60,7 +60,6 @@ class _HomePagestate extends State<HomePage> {
           title: Column(children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 10,
                 vertical: 18,
               ),
               child: Row(
@@ -100,14 +99,12 @@ class _HomePagestate extends State<HomePage> {
             Container(
               height: 60,
               padding: EdgeInsets.all(10),
-              margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: Color(0xff292B37),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                width: cw - 10,
+                width: cw,
                 child: TextFormField(
                   style: const TextStyle(
                     fontSize: 16.5,
@@ -132,10 +129,10 @@ class _HomePagestate extends State<HomePage> {
                         final data = json.decode(response.body);
                         setState(() {
                           valuesearch = value;
-                          _books = data['items'];
+                          _books = data  != null ? data['items']: [];
                         });
                       } else {
-                        //_showMyDialog();
+                        
                       }
                     }
                   },
@@ -143,7 +140,7 @@ class _HomePagestate extends State<HomePage> {
               ),
             ),
           ])),
-      body: valuesearch == null
+      body: _books.length == 0
           ? SingleChildScrollView(
               child: SafeArea(
                 child: Column(
@@ -174,7 +171,12 @@ class _HomePagestate extends State<HomePage> {
                           child: Image.network(
                             "https://www.mercator-ocean.eu/wp-content/uploads/2019/11/Mock-Up_BlueBookCopernicus_2.jpg",
                           )),
-                      title: Text(book['volumeInfo']['title'],
+                      title: book['volumeInfo']['title'] != null ? Text(book['volumeInfo']['title'],
+                          style: TextStyle(
+                            fontFamily: 'os',
+                            color: Colors.white,
+                          )):
+                          Text("Not found !",
                           style: TextStyle(
                             fontFamily: 'os',
                             color: Colors.white,
