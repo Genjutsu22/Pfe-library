@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/BookPage.dart';
+import 'package:myapp/BookslistPage.dart';
 import 'package:myapp/CategoryPage.dart';
 import 'package:myapp/Home_Screen.dart';
 import 'package:myapp/LoginPage.dart';
@@ -30,13 +31,14 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: (isFirstLaunch == 0 || isFirstLaunch == null)
           ? "onboardingpage"
-          : "loginpage",
+          : "/",
       routes: {
         "loginpage": (context) => const LoginScreen(),
         "/": (context) => const HomePage(),
         "categorypage": (context) => CategoryPage(),
         "bookpage": (context) => BookPage(),
         "onboardingpage": (context) => const OnboardingPage(),
+        "bookslistpage": (context) => const BookslistPage(),
       },
     );
   }

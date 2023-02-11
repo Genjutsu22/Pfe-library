@@ -43,43 +43,47 @@ class CategoryPage extends StatelessWidget {
                 child: Column(
                   children: [
                     for (int i = 0; i < 15; i++)
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                "assets/icons/add_image.png",
-                                width: 90,
-                                height: 70,
-                                fit: BoxFit.cover,
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'bookslistpage');
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  "assets/icons/add_image.png",
+                                  width: 90,
+                                  height: 70,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Category",
-                              style: TextStyle(
-                                fontSize: 22,
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Category",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios,
                                 color: Colors.white,
-                              ),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                              size: 23,
-                            )
-                          ],
+                                size: 23,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                   ],
                 ),
               ),
-              
             ],
           ),
         ),
