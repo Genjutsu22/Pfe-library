@@ -88,7 +88,7 @@ class CategoryPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Customnavbar(),
+    //  bottomNavigationBar: Customnavbar(),
     );
   }
 }

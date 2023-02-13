@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Customnavbar.dart';
 
@@ -6,6 +7,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -49,12 +51,17 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                "assets/images/user.png",
-                width: 200,
-                height: 200,
+            child: InkWell(
+              onTap: () {
+                signout();
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.asset(
+                  "assets/images/user.png",
+                  width: 200,
+                  height: 200,
+                ),
               ),
             ),
           ),
@@ -76,7 +83,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Center(
             child: Text(
-              "youremail@gmail.com",
+              "${user.email}",
               style: TextStyle(
                 color: Colors.white54,
                 fontSize: 18,
@@ -86,7 +93,11 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Customnavbar(),
+   //   bottomNavigationBar: Customnavbar(),
     );
   }
+}
+
+void signout() {
+  FirebaseAuth.instance.signOut();
 }

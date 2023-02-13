@@ -9,7 +9,7 @@ bool like = false;
 class BookPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Customnavbar(),
+      // bottomNavigationBar: Customnavbar(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -176,13 +176,13 @@ class BookPage extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.favorite,
+                                      Icons.add_outlined,
                                       size: 30,
                                       color: Colors.white,
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "Add to favorite",
+                                      "Réserver",
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.white,
@@ -194,21 +194,6 @@ class BookPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Material(
-                            color: Color.fromARGB(192, 129, 58, 192),
-                            borderRadius: BorderRadius.circular(30),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 45,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          )
                         ],
                       ),
                     ),

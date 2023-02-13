@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:myapp/AuthPage.dart';
 import 'package:myapp/Customnavbar.dart';
 import 'package:myapp/Newwidget.dart';
 import 'package:myapp/Popularwidget.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/ProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,7 +30,7 @@ class _HomePagestate extends State<HomePage> {
       padding: const EdgeInsets.only(right: 1),
       child: DropdownButton(
           underline: SizedBox(),
-          icon: const Icon(Icons.tune),
+          icon: const Icon(Icons.tune_outlined),
           dropdownColor: const Color(0xff292B37),
           focusColor: const Color(0xff292B37),
           iconEnabledColor: Color.fromARGB(255, 205, 208, 225),
@@ -85,12 +89,17 @@ class _HomePagestate extends State<HomePage> {
                       ),
                     ],
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      "assets/icons/user.png",
-                      width: 50,
-                      height: 50,
+                  InkWell(
+                    onTap: () {
+                      signout();
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: SvgPicture.asset(
+                        "assets/icons/logout.svg",
+                        width: 40,
+                        height: 40,
+                      ),
                     ),
                   )
                 ],
@@ -129,11 +138,9 @@ class _HomePagestate extends State<HomePage> {
                         final data = json.decode(response.body);
                         setState(() {
                           valuesearch = value;
-                          _books = data  != null ? data['items']: [];
+                          _books = data != null ? data['items'] : [];
                         });
-                      } else {
-                        
-                      }
+                      } else {}
                     }
                   },
                 ),
@@ -171,16 +178,17 @@ class _HomePagestate extends State<HomePage> {
                           child: Image.network(
                             "https://www.mercator-ocean.eu/wp-content/uploads/2019/11/Mock-Up_BlueBookCopernicus_2.jpg",
                           )),
-                      title: book['volumeInfo']['title'] != null ? Text(book['volumeInfo']['title'],
-                          style: TextStyle(
-                            fontFamily: 'os',
-                            color: Colors.white,
-                          )):
-                          Text("Not found !",
-                          style: TextStyle(
-                            fontFamily: 'os',
-                            color: Colors.white,
-                          )),
+                      title: book['volumeInfo']['title'] != null
+                          ? Text(book['volumeInfo']['title'],
+                              style: TextStyle(
+                                fontFamily: 'os',
+                                color: Colors.white,
+                              ))
+                          : Text("Not found !",
+                              style: TextStyle(
+                                fontFamily: 'os',
+                                color: Colors.white,
+                              )),
                       subtitle: book['volumeInfo']['authors'] != null
                           ? Text(
                               book['volumeInfo']['authors']

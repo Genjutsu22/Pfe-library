@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -91,34 +91,6 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.all(40),
               child: Column(
                 children: [
-                  /*  Row(
-                    children: [
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xffBABCC1),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  ),
-                  SizedBox(
-                    height: 48,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: ),
-                    child: Text(
-                      'Hello there,\nWelcome ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontFamily: "Kanit",
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),*/
                   SizedBox(
                     height: 32,
                   ),
@@ -142,46 +114,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
-                  /*     Text(
-                    'Sign in with your mail and password \n or continue with social media',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      wordSpacing: 0.3,
-                      letterSpacing: 0.1,
-                      fontSize: 14,
-                      fontFamily: "os",
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffBABCC1),
-                      height: 1.42,
-                    ),
-                  ),*/
                   SizedBox(
                     height: 30,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: myController1,
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return "*Champ obligatoire !";
-                      } else if (value != "admin") {
-                        return "*CNE incorrect !";
-                      } else {
-                        return null;
                       }
                     },
                     style: TextStyle(color: Color(0xffBABCC1)),
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-                      labelText: 'CNE',
+                      labelText: 'Email',
                       hintStyle: TextStyle(
                         color: Color(0xffBABCC1),
                         fontFamily: 'os',
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
-                      hintText: "Saisir votre CNE",
+                      hintText: "Saisir votre Email",
                       labelStyle: TextStyle(
                         color: Color(0xffBABCC1),
                         fontFamily: 'os',
@@ -211,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    //  autofocus: true,
                   ),
                   SizedBox(
                     height: 30,
@@ -223,10 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return "*Champ obligatoire !";
-                      } else if (value != "admin") {
-                        return "*Mot de passe incorrect !";
-                      } else {
-                        return null;
                       }
                     },
                     decoration: InputDecoration(
@@ -313,14 +263,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        Navigator.pushNamed(context, '/');
-                        myController1.clear();
-                        myController2.clear();
-                      }
-                    },
+                    onPressed: Signuserin,
+                    /* if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save(); */
+
                     child: Text(
                       'Continue',
                       style: TextStyle(
@@ -352,5 +298,68 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void printsalam() {
     print('Salam!');
+  }
+
+  void Signuserin() async {
+    if (formKey.currentState!.validate()) {}
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: myController1.text,
+        password: myController2.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        wait1('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        wait1('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  Future<void> wait1(String s) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          backgroundColor: Color.fromARGB(255, 129, 58, 192),
+          title: Text(
+            s,
+            style: TextStyle(
+                fontFamily: "kanit",
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+          alignment: Alignment.center,
+          icon: Icon(
+            Icons.error_outline,
+            color: Colors.white,
+            size: 50,
+          ),
+          actions: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                        fontFamily: "Kanit",
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

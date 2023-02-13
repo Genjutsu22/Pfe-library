@@ -48,7 +48,7 @@ class BookslistPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Customnavbar(),
+     // bottomNavigationBar: Customnavbar(),
       body: SafeArea(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/AuthPage.dart';
+import 'package:myapp/CategoryPage.dart';
+import 'package:myapp/Home_Screen.dart';
+import 'package:myapp/ProfilePage.dart';
 
 class Customnavbar extends StatelessWidget {
   @override
@@ -18,7 +22,8 @@ class Customnavbar extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/');
+            
+                Navigator.pushNamed(context, "/");
             },
             child: Icon(
               Icons.home,
@@ -28,7 +33,8 @@ class Customnavbar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'categorypage');
+                            Navigator.pushNamed(context, "categorypage");
+
             },
             child: Icon(
               Icons.category,
@@ -46,7 +52,7 @@ class Customnavbar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'profilepage');
+              Navigator.pushNamed(context, "profilepage");
             },
             child: Icon(
               Icons.person,

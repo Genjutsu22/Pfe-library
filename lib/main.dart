@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/AuthPage.dart';
 import 'package:myapp/BookPage.dart';
 import 'package:myapp/BookslistPage.dart';
 import 'package:myapp/CategoryPage.dart';
@@ -8,7 +9,7 @@ import 'package:myapp/LoginPage.dart';
 import 'package:myapp/OnboardingPage.dart';
 import 'package:myapp/ProfilePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 int? isFirstLaunch;
 Future<void> main() async {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: (isFirstLaunch == 0 || isFirstLaunch == null)
           ? "onboardingpage"
-          : "/",
+          : "authpage",
       routes: {
         "loginpage": (context) => const LoginScreen(),
         "/": (context) => const HomePage(),
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         "onboardingpage": (context) => const OnboardingPage(),
         "bookslistpage": (context) => const BookslistPage(),
         "profilepage": (context) => const ProfilePage(),
+        "authpage": (context) => const AuthPage(),
       },
     );
   }
