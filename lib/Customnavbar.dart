@@ -22,14 +22,7 @@ class Customnavbar extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushAndRemoveUntil<dynamic>(
-                context,
-                MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) => HomePage(),
-                ),
-                (route) =>
-                    false, //if you want to disable back feature set to false
-              );
+              Navigator.pushNamed(context, "/");
             },
             child: Icon(
               Icons.home,
