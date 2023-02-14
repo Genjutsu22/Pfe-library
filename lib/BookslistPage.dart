@@ -26,29 +26,33 @@ class BookslistPage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back,
-                size: 30,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 30),
-            Text(
-              "Category name",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 30),
+                Text(
+                  "Category name",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
-     // bottomNavigationBar: Customnavbar(),
+      // bottomNavigationBar: Customnavbar(),
       body: SafeArea(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),

@@ -14,9 +14,9 @@ var formKey = GlobalKey<FormState>();
 
 class _LoginScreenState extends State<LoginScreen> {
   String text1 = "";
+  var ex;
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
-
   Future<void> wait() async {
     return showDialog<void>(
       context: context,
@@ -303,14 +303,22 @@ class _LoginScreenState extends State<LoginScreen> {
   void Signuserin() async {
     if (formKey.currentState!.validate()) {}
     try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(child: CircularProgressIndicator());
+          });
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: myController1.text,
-        password: myController2.text,
+        email: myController1.text.trim(),
+        password: myController2.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
+      ex = e.code;
       if (e.code == 'user-not-found') {
+        Navigator.of(context).pop();
         wait1('No user found for that email.');
       } else if (e.code == 'wrong-password') {
+        Navigator.of(context).pop();
         wait1('Wrong password provided for that user.');
       }
     }

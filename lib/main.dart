@@ -8,6 +8,7 @@ import 'package:myapp/Home_Screen.dart';
 import 'package:myapp/LoginPage.dart';
 import 'package:myapp/OnboardingPage.dart';
 import 'package:myapp/ProfilePage.dart';
+import 'package:myapp/wait_connection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         "bookslistpage": (context) => const BookslistPage(),
         "profilepage": (context) => const ProfilePage(),
         "authpage": (context) => const AuthPage(),
+        "Wait_connection": (context) => const Wait_connection(),
       },
     );
   }

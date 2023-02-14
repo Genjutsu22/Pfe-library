@@ -17,6 +17,71 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePagestate extends State<HomePage> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> error_book() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          backgroundColor: const Color(0xff292B37),
+          title: const Text(
+            'Error !',
+            style: TextStyle(
+                fontFamily: "kanit",
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+          alignment: Alignment.center,
+          icon: Icon(
+            Icons.error_outlined,
+            color: Colors.white,
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: const <Widget>[
+                SizedBox(
+                  height: 21,
+                ),
+                Text(
+                  'Pas des livres de ce titre !',
+                  style: TextStyle(
+                      fontFamily: "kanit", color: Colors.white, fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextButton(
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                        fontFamily: "Kanit",
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   TextEditingController _controller = TextEditingController();
   List _books = [];
   dynamic valueitem;
@@ -134,13 +199,17 @@ class _HomePagestate extends State<HomePage> {
                     if (value.isNotEmpty) {
                       final response = await http.get(Uri.parse(
                           'https://www.googleapis.com/books/v1/volumes?q=$value'));
-                      if (response.statusCode == 200) {
-                        final data = json.decode(response.body);
-                        setState(() {
-                          valuesearch = value;
-                          _books = data != null ? data['items'] : [];
-                        });
-                      } else {}
+                      try {
+                        if (response.statusCode == 200) {
+                          final data = json.decode(response.body);
+                          setState(() {
+                            valuesearch = value;
+                            _books = data['items'];
+                          });
+                        }
+                      } catch (e) {
+                        error_book();
+                      }
                     }
                   },
                 ),
