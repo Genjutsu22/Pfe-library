@@ -138,7 +138,7 @@ class _HomePagestate extends State<HomePage> {
                         final data = json.decode(response.body);
                         setState(() {
                           valuesearch = value;
-                          _books = data != null ? data['items'] : [];
+                          _books = data['items'];
                         });
                       } else {}
                     }

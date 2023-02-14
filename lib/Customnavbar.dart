@@ -22,8 +22,7 @@ class Customnavbar extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-            
-                Navigator.pushNamed(context, "/");
+              Navigator.pushNamed(context, "/");
             },
             child: Icon(
               Icons.home,
@@ -33,8 +32,7 @@ class Customnavbar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-                            Navigator.pushNamed(context, "categorypage");
-
+              Navigator.pushNamed(context, "categorypage");
             },
             child: Icon(
               Icons.category,
