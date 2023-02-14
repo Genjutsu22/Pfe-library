@@ -199,13 +199,17 @@ class _HomePagestate extends State<HomePage> {
                     if (value.isNotEmpty) {
                       final response = await http.get(Uri.parse(
                           'https://www.googleapis.com/books/v1/volumes?q=$value'));
-                      if (response.statusCode == 200) {
-                        final data = json.decode(response.body);
-                        setState(() {
-                          valuesearch = value;
-                          _books = data != null ? data['items'] : [];
-                        });
-                      } else {}
+                      try {
+                        if (response.statusCode == 200) {
+                          final data = json.decode(response.body);
+                          setState(() {
+                            valuesearch = value;
+                            _books = data['items'];
+                          });
+                        }
+                      } catch (e) {
+                        error_book();
+                      }
                     }
                   },
                 ),
