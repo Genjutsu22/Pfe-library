@@ -121,6 +121,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     controller: myController1,
                     validator: (String? value) {
+                      final bool emailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value!);
+                      if (!emailValid) {
+                        return "*Email not valid";
+                      }
                       if (value!.isEmpty) {
                         return "*Champ obligatoire !";
                       }
