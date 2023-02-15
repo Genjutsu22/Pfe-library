@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:myapp/AuthPage.dart';
@@ -11,28 +13,38 @@ class Wait_connection extends StatefulWidget {
 }
 
 class _Wait_connectionState extends State<Wait_connection> {
-  var result;
+  late ConnectivityResult result;
+  late StreamSubscription subscription;
+  var isconnected = false;
   @override
   void initState() {
     super.initState();
-    checkconnect();
+    start();
   }
 
   void checkconnect() async {
     result = await Connectivity().checkConnectivity();
+    if (result != ConnectivityResult.none) {
+      isconnected = true;
+    } else {
+      isconnected = false;
+    }
+    setState(() {});
+  }
+
+  start() {
+    subscription = Connectivity().onConnectivityChanged.listen((event) async {
+      checkconnect();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xff0F111D),
-        body: StreamBuilder<ConnectivityResult>(
-          stream: Connectivity().onConnectivityChanged,
-          builder: (context, snapshot) {
-            if (snapshot.data == result) {
-              return const LoginScreen();
-            } else {
-              return SafeArea(
+        body: isconnected
+            ? const LoginScreen()
+            : SafeArea(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 100),
                   child: Column(
@@ -53,10 +65,7 @@ class _Wait_connectionState extends State<Wait_connection> {
                             width: 160,
                             height: 160,
                           ),
-                          Text(
-                              snapshot.data == result
-                                  ? "Connecte"
-                                  : "non connecte !",
+                          Text(isconnected ? "Connecte" : "non connecte !",
                               style: TextStyle(
                                   color: Colors.grey,
                                   fontFamily: "kanit",
@@ -67,11 +76,6 @@ class _Wait_connectionState extends State<Wait_connection> {
                     ],
                   ),
                 ),
-              );
-            }
-          },
-        )
-        /*  }*/
-        );
+              ));
   }
 }

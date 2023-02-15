@@ -8,6 +8,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -70,7 +71,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Center(
             child: Text(
-              "Your Name",
+              "${user.uid}",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -91,9 +92,22 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: 4,
+          ),
+          Center(
+            child: Text(
+              "${user.email}",
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: 18,
+                // fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ],
       ),
-   //   bottomNavigationBar: Customnavbar(),
+      //   bottomNavigationBar: Customnavbar(),
     );
   }
 }
