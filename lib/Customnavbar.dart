@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/AuthPage.dart';
 import 'package:myapp/CategoryPage.dart';
 import 'package:myapp/Home_Screen.dart';
-import 'package:myapp/ProfilePage.dart';
+import 'package:myapp/profile/ProfilePage.dart';
 
 class Customnavbar extends StatelessWidget {
   @override

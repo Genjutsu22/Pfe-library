@@ -7,7 +7,7 @@ import 'package:myapp/CategoryPage.dart';
 import 'package:myapp/Home_Screen.dart';
 import 'package:myapp/LoginPage.dart';
 import 'package:myapp/OnboardingPage.dart';
-import 'package:myapp/ProfilePage.dart';
+import 'package:myapp/profile/ProfilePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

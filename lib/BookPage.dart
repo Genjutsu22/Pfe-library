@@ -44,7 +44,7 @@ class _BookPageState extends State<BookPage> {
                               Navigator.pop(context);
                             },
                             child: Icon(
-                              Icons.arrow_back,
+                              Icons.arrow_back_ios_new_rounded,
                               size: 30,
                               color: Colors.white,
                             ),
@@ -66,7 +66,7 @@ class _BookPageState extends State<BookPage> {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(192, 129, 58, 192)
+                                  color: Color.fromARGB(192, 52, 49, 55)
                                       .withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 8,
@@ -126,7 +126,7 @@ class _BookPageState extends State<BookPage> {
                           Row(
                             children: [
                               Text(
-                                "Category    Actor    Pages",
+                                "${book.categorie}    ${book.auteur}   ${book.pages}",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -156,7 +156,7 @@ class _BookPageState extends State<BookPage> {
                             height: 15,
                           ),
                           Text(
-                            "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
+                            book.description,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

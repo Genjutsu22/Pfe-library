@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/BookPage.dart';
+import 'package:myapp/fun/book.dart';
 
 List<String> booktitle = [
   "Eloquent JavaScript",
@@ -12,13 +13,6 @@ List<String> booktitle = [
   "Cyber security",
   "Better Algebra for all"
 ];
-
-class ScreenArguments {
-  final String title;
-  final String image;
-
-  ScreenArguments(this.title, this.image);
-}
 
 class Newwidget extends StatelessWidget {
   @override
@@ -58,12 +52,18 @@ class Newwidget extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           child: Row(
             children: [
-              for (int j = 1; j < 8; j++)
+              for (int j = 8; j >= 1; j--)
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, 'bookpage',
                         arguments: ScreenArguments(
-                            booktitle[j], "assets/images/bk$j.jpg"));
+                          booktitle[j - 1],
+                          "assets/images/bk$j.jpg",
+                          "Categorie",
+                          "Auteur",
+                          "12",
+                          "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
+                        ));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
@@ -101,7 +101,7 @@ class Newwidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                booktitle[j],
+                                booktitle[j - 1],
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.white,

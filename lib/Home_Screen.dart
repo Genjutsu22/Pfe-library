@@ -7,7 +7,8 @@ import 'package:myapp/Customnavbar.dart';
 import 'package:myapp/Newwidget.dart';
 import 'package:myapp/Popularwidget.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/ProfilePage.dart';
+import 'package:myapp/fun/book.dart';
+import 'package:myapp/profile/ProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,7 @@ class _HomePagestate extends State<HomePage> {
     super.dispose();
   }
 
-  Future<void> error_book() async {
+  Future<void> error_book(String a) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -44,12 +45,12 @@ class _HomePagestate extends State<HomePage> {
           ),
           content: SingleChildScrollView(
             child: Column(
-              children: const <Widget>[
+              children: <Widget>[
                 SizedBox(
                   height: 21,
                 ),
                 Text(
-                  'Pas des livres de ce titre !',
+                  a,
                   style: TextStyle(
                       fontFamily: "kanit", color: Colors.white, fontSize: 16),
                 ),
@@ -83,11 +84,12 @@ class _HomePagestate extends State<HomePage> {
   }
 
   TextEditingController _controller = TextEditingController();
+  String sel = "nom_auteur";
   List _books = [];
   dynamic valueitem;
   String? valuesearch;
   String? user;
-  List listitem = ["Par titre", "Par auteur", "Par genre"];
+  List listitem = ["par Titre", "par Auteur", "par ISBN"];
 
   @override
   Widget malist() {
@@ -95,7 +97,7 @@ class _HomePagestate extends State<HomePage> {
       padding: const EdgeInsets.only(right: 1),
       child: DropdownButton(
           underline: SizedBox(),
-          icon: const Icon(Icons.tune_outlined),
+          icon: const Icon(Icons.filter_list),
           dropdownColor: const Color(0xff292B37),
           focusColor: const Color(0xff292B37),
           iconEnabledColor: Color.fromARGB(255, 205, 208, 225),
@@ -103,9 +105,19 @@ class _HomePagestate extends State<HomePage> {
           onChanged: (newValue) {
             setState(() {
               valueitem = newValue;
+              if (valueitem == "par nom") {
+                sel = "nom_livre";
+              } else if (valueitem == "par auteur") {
+                sel = "nom_auteur";
+              } else if (valueitem == "par ISBN") {
+                sel = "ISBN";
+              }
             });
           },
           items: listitem.map((valueitem) {
+            /* setState(() {
+             
+            });*/
             return DropdownMenuItem(
                 value: valueitem,
                 child: Text(valueitem,
@@ -180,39 +192,45 @@ class _HomePagestate extends State<HomePage> {
               child: Container(
                 width: cw,
                 child: TextFormField(
-                  style: const TextStyle(
-                    fontSize: 16.5,
-                    color: Colors.white,
-                  ),
-                  decoration: InputDecoration(
-                    suffixIcon: malist(),
-                    prefixIcon: const Icon(
-                      Icons.search_sharp,
+                    style: const TextStyle(
+                      fontSize: 16.5,
                       color: Colors.white,
-                      size: 30,
                     ),
-                    hintText: "Search",
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    border: InputBorder.none,
-                  ),
-                  onFieldSubmitted: (value) async {
-                    if (value.isNotEmpty) {
-                      final response = await http.get(Uri.parse(
-                          'https://www.googleapis.com/books/v1/volumes?q=$value'));
+                    decoration: InputDecoration(
+                      suffixIcon: malist(),
+                      prefixIcon: const Icon(
+                        Icons.search_sharp,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      hintText: "Search",
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      border: InputBorder.none,
+                    ),
+                    onFieldSubmitted: (value) async {
+                      dynamic response;
+                      try {
+                        response = value.isEmpty
+                            ? await http.get(Uri.parse(
+                                "https://intertarsal-surface.000webhostapp.com/getBooks.php"))
+                            : await http.get(Uri.parse(
+                                "https://intertarsal-surface.000webhostapp.com/getBooks.php?$sel=\"$value\""));
+                      } catch (e) {
+                        error_book("Error de connection !");
+                      }
+
                       try {
                         if (response.statusCode == 200) {
                           final data = json.decode(response.body);
                           setState(() {
                             valuesearch = value;
-                            _books = data['items'];
+                            _books = data;
                           });
                         }
                       } catch (e) {
-                        error_book();
+                        error_book("pas de livre !");
                       }
-                    }
-                  },
-                ),
+                    }),
               ),
             ),
           ])),
@@ -239,40 +257,32 @@ class _HomePagestate extends State<HomePage> {
                   physics: BouncingScrollPhysics(),
                   itemCount: _books.length,
                   itemBuilder: (context, index) {
-                    final book = _books[index];
                     return ListTile(
                       leading: SizedBox(
-                          height: 100.0,
+                          height: 200.0,
                           width: 100.0,
                           child: Image.network(
-                            "https://www.mercator-ocean.eu/wp-content/uploads/2019/11/Mock-Up_BlueBookCopernicus_2.jpg",
+                            "${_books[index]['image_livre']}",
                           )),
-                      title: book['volumeInfo']['title'] != null
-                          ? Text(book['volumeInfo']['title'],
-                              style: TextStyle(
-                                fontFamily: 'os',
-                                color: Colors.white,
-                              ))
-                          : Text("Not found !",
-                              style: TextStyle(
-                                fontFamily: 'os',
-                                color: Colors.white,
-                              )),
-                      subtitle: book['volumeInfo']['authors'] != null
-                          ? Text(
-                              book['volumeInfo']['authors']
-                                  .join(" , ")
-                                  .toString(),
-                              style: TextStyle(
-                                color: const Color(0xff6369d9),
-                              ))
-                          : Text("not found ",
-                              style: TextStyle(
-                                color: const Color(0xff6369d9),
-                                fontFamily: 'os',
-                              )),
+                      title: Text("${_books[index]['nom_livre']}",
+                          style: TextStyle(
+                            color: const Color(0xff6369d9),
+                          )),
+                      subtitle: Text(
+                          "${_books[index]['nom_auteur']} ${_books[index]['prenom_auteur']}",
+                          style: TextStyle(
+                            fontFamily: 'os',
+                            color: Colors.white,
+                          )),
                       onTap: () {
-                        Navigator.pushNamed(context, 'bookpage');
+                        Navigator.pushNamed(context, 'bookpage',
+                            arguments: ScreenArguments(
+                                "${_books[index]['nom_livre']}",
+                                "${_books[index]['image_livre']}",
+                                "${_books[index]['cat_nom']}",
+                                "${_books[index]['nom_auteur']}  ${_books[index]['prenom_auteur']}",
+                                "${_books[index]['num_page']}",
+                                "${_books[index]['description']}"));
                       },
                     );
                   },
@@ -282,4 +292,8 @@ class _HomePagestate extends State<HomePage> {
       bottomNavigationBar: Customnavbar(),
     );
   }
+}
+
+void signout() {
+  FirebaseAuth.instance.signOut();
 }

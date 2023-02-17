@@ -21,7 +21,7 @@ class CategoryPage extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       child: Icon(
-                        Icons.arrow_back,
+                        Icons.arrow_back_ios_new_rounded,
                         size: 30,
                         color: Colors.white,
                       ),
@@ -88,7 +88,7 @@ class CategoryPage extends StatelessWidget {
           ),
         ),
       ),
-    //  bottomNavigationBar: Customnavbar(),
+      //  bottomNavigationBar: Customnavbar(),
     );
   }
 }

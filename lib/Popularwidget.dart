@@ -1,19 +1,5 @@
 import 'package:flutter/material.dart';
-
-class ScreenArguments {
-  final String title;
-  final String image;
-  final String categorie;
-  final String actor;
-  final String description;
-  ScreenArguments(
-    this.title,
-    this.image,
-    this.categorie,
-    this.actor,
-    this.description,
-  );
-}
+import 'package:myapp/fun/book.dart';
 
 List<String> booktitle = [
   "Eloquent JavaScript",
@@ -75,8 +61,14 @@ class Popularwidget extends StatelessWidget {
                   ),
                   onTap: (() {
                     Navigator.pushNamed(context, 'bookpage',
-                        arguments: ScreenArguments(booktitle[i],
-                            "assets/images/bk$i.jpg", "", "", ""));
+                        arguments: ScreenArguments(
+                          booktitle[i - 1],
+                          "assets/images/bk$i.jpg",
+                          "Categorie",
+                          "Auteur",
+                          "12",
+                          "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
+                        ));
                   }),
                 ),
             ],
