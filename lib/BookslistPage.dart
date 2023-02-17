@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myapp/Customnavbar.dart';
+import 'package:myapp/Getdata.dart';
+import 'package:http/http.dart' as http;
 
 List<String> booktitle = [
   "Eloquent JavaScript",
@@ -12,11 +16,24 @@ List<String> booktitle = [
   "Better Algebra for all"
 ];
 
-class BookslistPage extends StatelessWidget {
+class BookslistPage extends StatefulWidget {
   const BookslistPage({super.key});
 
   @override
+  State<BookslistPage> createState() => _BookslistPageState();
+}
+
+class _BookslistPageState extends State<BookslistPage> {
+  @override
   Widget build(BuildContext context) {
+    dynamic cat = ModalRoute.of(context)!.settings.arguments;
+    List aa = cat.ll;
+    print(
+        "============================================================================");
+    print(aa);
+        print(
+        "============================================================================");
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -26,29 +43,25 @@ class BookslistPage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 30),
-                Text(
-                  "Category name",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            )
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 30),
+            Text(
+              "${aa[0]["cat_nom"]}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),
@@ -62,12 +75,20 @@ class BookslistPage extends StatelessWidget {
             mainAxisSpacing: 20,
             crossAxisSpacing: 6,
           ),
+          itemCount: aa.length,
           itemBuilder: (_, index) {
             return InkWell(
               onTap: () {
                 Navigator.pushNamed(
                   context,
                   'bookpage',
+                  arguments: BookArguments(
+                            "${aa[index]["nom_livre"]}",
+                            "${aa[index]["image_livre"]}",
+                            "${aa[index]["cat_nom"]}",
+                            "${aa[index]["nom_auteur"]} ${aa[index]["prenom_auteur"]}",
+                            int.parse("${aa[index]["num_page"]}"),
+                            "${aa[index]["description"]}")
                 );
               },
               child: Container(
@@ -92,8 +113,8 @@ class BookslistPage extends StatelessWidget {
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
-                      child: Image.asset(
-                        "assets/icons/add_image.png",
+                      child: Image.network(
+                        "${aa[index]["image_livre"]}",
                         height: 200,
                         width: 200,
                         fit: BoxFit.cover,
@@ -106,7 +127,7 @@ class BookslistPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Book Title",
+                            "${aa[index]["nom_livre"]}",
                             style: TextStyle(
                               fontSize: 15,
                               color: Colors.white,
@@ -115,7 +136,7 @@ class BookslistPage extends StatelessWidget {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            "Category",
+                            "${aa[index]["nom_auteur"]} ${aa[index]["prenom_auteur"]}",
                             style: TextStyle(
                               color: Colors.white54,
                             ),
