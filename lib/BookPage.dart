@@ -21,7 +21,7 @@ class _BookPageState extends State<BookPage> {
         child: Stack(
           children: [
             Opacity(
-              child: Image.asset(
+              child: Image.network(
                 book.image,
                 height: 340,
                 fit: BoxFit.cover,
@@ -75,7 +75,7 @@ class _BookPageState extends State<BookPage> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
+                              child: Image.network(
                                 book.image,
                                 height: 250,
                                 width: 180,
@@ -83,26 +83,6 @@ class _BookPageState extends State<BookPage> {
                               ),
                             ),
                           ),
-                          /*   Container(
-                            margin: EdgeInsets.only(right: 25, top: 15),
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: Color(0xff813ac0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xff813ac0).withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 8,
-                                  )
-                                ]),
-                            child: Icon(
-                              Icons.add_outlined,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                          ),*/
                         ],
                       ),
                     ),
@@ -126,7 +106,7 @@ class _BookPageState extends State<BookPage> {
                           Row(
                             children: [
                               Text(
-                                "${book.categorie}    ${book.auteur}   ${book.pages}",
+                                "Category    Actor    Pages",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -156,7 +136,7 @@ class _BookPageState extends State<BookPage> {
                             height: 15,
                           ),
                           Text(
-                            book.description,
+                            "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -164,9 +144,6 @@ class _BookPageState extends State<BookPage> {
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 40,
                     ),
                     Container(
                       margin:

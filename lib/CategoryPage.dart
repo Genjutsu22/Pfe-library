@@ -1,7 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Customnavbar.dart';
+import 'package:http/http.dart' as http;
+import 'package:myapp/Getdata.dart';
+import 'dart:convert';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+  List ctglist = [];
+  Future getCategories() async {
+    var url = "https://intertarsal-surface.000webhostapp.com/getCategories.php";
+    var res;
+    try {
+      res = await http.get(Uri.parse(url));
+    } catch (e) {
+      print(e);
+    }
+
+    if (res.statusCode == 200) {
+      setState(() {
+        var red = json.decode((res.body));
+        ctglist.addAll(red);
+      });
+    }
+  }
+
+  List ctgbkslist = [];
+  String a = "";
+  Future getlistbooks(String a) async {
+    var url =
+        "https://intertarsal-surface.000webhostapp.com/getCategoriesBooks.php?cat=\"$a\"";
+    var res;
+    try {
+      res = await http.get(Uri.parse(url));
+    } catch (e) {
+      print(e);
+    }
+
+    if (res.statusCode == 200) {
+      setState(() {
+        var red = json.decode((res.body));
+        ctgbkslist.addAll(red);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getCategories();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +79,7 @@ class CategoryPage extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      "Discover",
+                      "Categories",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -42,10 +93,34 @@ class CategoryPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Column(
                   children: [
-                    for (int i = 0; i < 15; i++)
+                    for (int i = 0; i < ctglist.length; i++)
                       InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, 'bookslistpage');
+                        onTap: () 
+                          async {
+                            try {
+                               var url =
+        "https://intertarsal-surface.000webhostapp.com/getCategoriesBooks.php?cat=\"${ctglist[i]["cat_nom"]}\"";
+    var res;
+    try {
+      res = await http.get(Uri.parse(url));
+    } catch (e) {
+      print(e);
+    }
+
+    if (res.statusCode == 200) {
+      setState(() {
+        var red = json.decode((res.body));
+        ctgbkslist.addAll(red);
+      });
+    
+  }
+                          Navigator.pushNamed(context, 'bookslistpage',
+                              arguments: CategotieBookArguments(
+                                  ctgbkslist));
+                            } catch (e) {
+                              
+                            }
+   
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -54,18 +129,18 @@ class CategoryPage extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  "assets/icons/add_image.png",
+                                child: Image.network(
+                                  "https://intertarsal-surface.000webhostapp.com/library1/admin/bookimg/${ctglist[i]["image_cat"]}",
                                   width: 90,
                                   height: 70,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 20,
                               ),
                               Text(
-                                "Category",
+                                "${ctglist[i]["cat_nom"]}",
                                 style: TextStyle(
                                   fontSize: 22,
                                   color: Colors.white,

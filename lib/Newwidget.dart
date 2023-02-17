@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/BookPage.dart';
-import 'package:myapp/fun/book.dart';
 
 List<String> booktitle = [
   "Eloquent JavaScript",
@@ -14,7 +15,39 @@ List<String> booktitle = [
   "Better Algebra for all"
 ];
 
-class Newwidget extends StatelessWidget {
+class ScreenArguments {
+  final String title;
+  final String image;
+
+  ScreenArguments(this.title, this.image);
+}
+
+class _NewwidgetState extends State<Newwidget> {
+  List bkslist = [];
+
+  Future getBooks() async {
+    var url = "https://intertarsal-surface.000webhostapp.com/getBooks.php";
+    var res;
+    try {
+      res = await http.get(Uri.parse(url));
+    } catch (e) {
+      print(e);
+    }
+
+    if (res.statusCode == 200) {
+      setState(() {
+        var red = json.decode((res.body));
+        bkslist.addAll(red);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getBooks();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,18 +85,12 @@ class Newwidget extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           child: Row(
             children: [
-              for (int j = 8; j >= 1; j--)
+              for (int j = 1; j < 8; j++)
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, 'bookpage',
                         arguments: ScreenArguments(
-                          booktitle[j - 1],
-                          "assets/images/bk$j.jpg",
-                          "Categorie",
-                          "Auteur",
-                          "12",
-                          "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
-                        ));
+                            booktitle[j], "assets/images/bk$j.jpg"));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
@@ -87,8 +114,8 @@ class Newwidget extends StatelessWidget {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           ),
-                          child: Image.asset(
-                            "assets/images/bk$j.jpg",
+                          child: Image.network(
+                            "${bkslist[i]["image_livre"]}",
                             height: 200,
                             width: 200,
                             fit: BoxFit.cover,
@@ -101,7 +128,7 @@ class Newwidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                booktitle[j - 1],
+                                booktitle[j],
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.white,
@@ -110,7 +137,7 @@ class Newwidget extends StatelessWidget {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                "Category",
+                                "${bkslist[i]["cat_nom"]}",
                                 style: TextStyle(
                                   color: Colors.white54,
                                 ),
