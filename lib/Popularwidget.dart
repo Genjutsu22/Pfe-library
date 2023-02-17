@@ -75,8 +75,8 @@ class Popularwidget extends StatelessWidget {
                   ),
                   onTap: (() {
                     Navigator.pushNamed(context, 'bookpage',
-                        arguments: ScreenArguments(
-                            booktitle[i], "assets/images/bk$i.jpg"));
+                        arguments: ScreenArguments(booktitle[i],
+                            "assets/images/bk$i.jpg", "", "", ""));
                   }),
                 ),
             ],
