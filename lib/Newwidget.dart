@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/BookPage.dart';
 
@@ -57,10 +58,12 @@ class Newwidget extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           child: Row(
             children: [
-              for (int j = 8; j > 0; j--)
+              for (int j = 1; j < 8; j++)
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, 'bookpage');
+                    Navigator.pushNamed(context, 'bookpage',
+                        arguments: ScreenArguments(
+                            booktitle[j], "assets/images/bk$j.jpg"));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
@@ -98,7 +101,7 @@ class Newwidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                booktitle[j - 1],
+                                booktitle[j],
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.white,

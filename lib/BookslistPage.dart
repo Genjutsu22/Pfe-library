@@ -65,7 +65,10 @@ class BookslistPage extends StatelessWidget {
           itemBuilder: (_, index) {
             return InkWell(
               onTap: () {
-                Navigator.pushNamed(context, 'bookpage');
+                Navigator.pushNamed(
+                  context,
+                  'bookpage',
+                );
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10),

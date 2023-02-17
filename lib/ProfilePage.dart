@@ -56,13 +56,27 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 signout();
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  "assets/images/user.png",
-                  width: 200,
-                  height: 200,
-                ),
+              child: SizedBox(
+                height: 120,
+                width: 120,
+                child: Stack(fit: StackFit.expand, children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(
+                      "assets/images/user.png",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 46,
+                    width: 46,
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.add_a_photo_outlined,
+                        color: Color(0xff0F111D),
+                      ),
+                      onTap: () {},
+                    ),
+                  )
+                ]),
               ),
             ),
           ),

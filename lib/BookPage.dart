@@ -5,9 +5,16 @@ import 'package:myapp/Newwidget.dart';
 import 'package:myapp/RecommendedWidget.dart';
 
 bool like = false;
+String a = "", b = "";
 
-class BookPage extends StatelessWidget {
+class BookPage extends StatefulWidget {
+  @override
+  State<BookPage> createState() => _BookPageState();
+}
+
+class _BookPageState extends State<BookPage> {
   Widget build(BuildContext context) {
+    dynamic book = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       // bottomNavigationBar: Customnavbar(),
       body: SingleChildScrollView(
@@ -15,7 +22,7 @@ class BookPage extends StatelessWidget {
           children: [
             Opacity(
               child: Image.asset(
-                "assets/images/bk1.jpg",
+                book.image,
                 height: 340,
                 fit: BoxFit.cover,
                 width: double.infinity,
@@ -69,7 +76,7 @@ class BookPage extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
-                                "assets/images/bk1.jpg",
+                                book.image,
                                 height: 250,
                                 width: 180,
                                 fit: BoxFit.cover,
@@ -106,7 +113,7 @@ class BookPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Book Name",
+                            book.title,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -131,7 +138,8 @@ class BookPage extends StatelessWidget {
                           SizedBox(
                             height: 15,
                           ),
-                          RatingBar.builder(
+
+                          /*RatingBar.builder(
                               itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     color: Colors.amber,
@@ -143,7 +151,7 @@ class BookPage extends StatelessWidget {
                               unratedColor: Colors.white,
                               initialRating: 3,
                               minRating: 1,
-                              onRatingUpdate: (rating) {}),
+                              updateOnDrag: false),*/
                           SizedBox(
                             height: 15,
                           ),

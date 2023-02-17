@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Home_Screen.dart';
 import 'package:myapp/LoginPage.dart';
-import 'package:myapp/wait_connection.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -15,7 +14,7 @@ class AuthPage extends StatelessWidget {
         if (snapshot.hasData)
           return HomePage();
         else {
-          return Wait_connection();
+          return LoginScreen();
         }
       },
       stream: FirebaseAuth.instance.authStateChanges(),
