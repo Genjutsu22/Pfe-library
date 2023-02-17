@@ -1,5 +1,31 @@
 import 'package:flutter/material.dart';
 
+class ScreenArguments {
+  final String title;
+  final String image;
+  final String categorie;
+  final String actor;
+  final String description;
+  ScreenArguments(
+    this.title,
+    this.image,
+    this.categorie,
+    this.actor,
+    this.description,
+  );
+}
+
+List<String> booktitle = [
+  "Eloquent JavaScript",
+  "Java for beginners guide",
+  "C++ for beginners",
+  "Computing programming",
+  "Beginning SQL Queries",
+  "Modeling with UML",
+  "Cyber security",
+  "Better Algebra for all"
+];
+
 class Popularwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -48,7 +74,9 @@ class Popularwidget extends StatelessWidget {
                     ),
                   ),
                   onTap: (() {
-                    Navigator.pushNamed(context, 'bookpage');
+                    Navigator.pushNamed(context, 'bookpage',
+                        arguments: ScreenArguments(
+                            booktitle[i], "assets/images/bk$i.jpg"));
                   }),
                 ),
             ],
